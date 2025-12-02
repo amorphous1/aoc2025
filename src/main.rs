@@ -11,6 +11,7 @@ fn main() -> Result<(), std::io::Error> {
 
     let day02_input = &fs::read_to_string("inputs/day02.txt")?;
     print_and_time("day 2 part 1", || day02::part1(day02_input));
+    print_and_time("day 2 part 2", || day02::part2(day02_input));
 
     Ok(())
 }
