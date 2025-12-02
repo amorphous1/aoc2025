@@ -1,22 +1,14 @@
 pub fn part1(input: &str) -> u64 {
-    let mut result = 0;
-    input.split(',').for_each(|range| {
-        let mut from_to = range.split('-');
-        let from: u64 = from_to.next().unwrap().parse().unwrap();
-        let to: u64 = from_to.next().unwrap().parse().unwrap();
-        for num in from..=to {
-            let num_text = num.to_string();
-            if num_text.len() % 2 == 0 && num_text[..num_text.len() / 2] == num_text[num_text.len() / 2..] {
-                result += num;
-            }
-        }
-    });
-    result
+    find_repeating_numbers(input, &is_repeated_two_times)
 }
 
 pub fn part2(input: &str) -> u64 {
+    find_repeating_numbers(input, &is_repeated_any_number_of_times)
+}
+
+fn find_repeating_numbers(ranges: &str, is_repeated: &dyn Fn(&str) -> bool) -> u64 {
     let mut result = 0;
-    input.split(',').for_each(|range| {
+    ranges.split(',').for_each(|range| {
         let mut from_to = range.split('-');
         let from: u64 = from_to.next().unwrap().parse().unwrap();
         let to: u64 = from_to.next().unwrap().parse().unwrap();
@@ -30,7 +22,11 @@ pub fn part2(input: &str) -> u64 {
     result
 }
 
-fn is_repeated(num_text: &str) -> bool {
+fn is_repeated_two_times(num_text: &str) -> bool {
+    is_repeated_n_times(num_text, &2)
+}
+
+fn is_repeated_any_number_of_times(num_text: &str) -> bool {
     for n in 2..=num_text.len() {
         if is_repeated_n_times(num_text, &n) {
             return true;
