@@ -3,6 +3,7 @@ use std::time::SystemTime;
 
 mod day01;
 mod day02;
+mod day03;
 
 fn main() -> Result<(), std::io::Error> {
     let day01_input = &fs::read_to_string("inputs/day01.txt")?;
@@ -12,6 +13,9 @@ fn main() -> Result<(), std::io::Error> {
     let day02_input = &fs::read_to_string("inputs/day02.txt")?;
     print_and_time("day 2 part 1", || day02::part1(day02_input));
     print_and_time("day 2 part 2", || day02::part2(day02_input));
+
+    let day03_input = &fs::read_to_string("inputs/day03.txt")?;
+    print_and_time("day 3 part 1", || day03::part1(day03_input));
 
     Ok(())
 }
