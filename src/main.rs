@@ -4,6 +4,7 @@ use std::time::SystemTime;
 mod day01;
 mod day02;
 mod day03;
+mod day04;
 
 fn main() -> Result<(), std::io::Error> {
     let day01_input = &fs::read_to_string("inputs/day01.txt")?;
@@ -17,6 +18,10 @@ fn main() -> Result<(), std::io::Error> {
     let day03_input = &fs::read_to_string("inputs/day03.txt")?;
     print_and_time("day 3 part 1", || day03::part1(day03_input));
     print_and_time("day 3 part 2", || day03::part2(day03_input));
+
+    let day04_input = &fs::read_to_string("inputs/day04.txt")?;
+    print_and_time("day 4 part 1", || day04::part1(day04_input));
+    // print_and_time("day 4 part 2", || day04::part2(day04_input));
 
     Ok(())
 }
