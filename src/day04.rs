@@ -1,19 +1,14 @@
 use std::collections::HashSet;
 
 pub fn part1(diagram: &str) -> usize {
-    let grid: Vec<Vec<char>> = diagram.split('\n').map(|line| line.chars().collect()).collect();
-    let mut result = 0;
-    for y in 0..grid.len() {
-        for x in 0..grid[0].len() {
-            if grid[y][x] == '@' && num_neighbours(&grid, x, y) < 4 {
-                result += 1;
-            }
-        }
-    }
-    result
+    remove_rolls(diagram, true)
 }
 
 pub fn part2(diagram: &str) -> usize {
+    remove_rolls(diagram, false)
+}
+
+pub fn remove_rolls(diagram: &str, stop_after_first_iteration: bool) -> usize {
     let mut grid: Vec<Vec<char>> = diagram.split('\n').map(|line| line.chars().collect()).collect();
     let mut removable_rolls: HashSet<(usize, usize)> = HashSet::new();
     let mut result = 0;
@@ -26,16 +21,15 @@ pub fn part2(diagram: &str) -> usize {
                 }
             }
         }
-        if removable_rolls.is_empty() {
+        result += removable_rolls.len();
+        if removable_rolls.is_empty() || stop_after_first_iteration {
             break;
         }
-        result += removable_rolls.len();
         for (rx, ry) in removable_rolls.iter() {
             grid[*ry][*rx] = '.';
         }
         removable_rolls.clear();
     }
-
     result
 }
 
