@@ -33,7 +33,6 @@ pub fn remove_rolls(diagram: &str, stop_after_first_iteration: bool) -> usize {
     result
 }
 
-
 fn num_neighbours(grid: &Vec<Vec<char>>, x: usize, y: usize) -> usize {
     let mut result = 0;
     for dy in -1..=1 {
