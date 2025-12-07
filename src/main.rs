@@ -30,8 +30,8 @@ fn main() -> Result<(), std::io::Error> {
     print_and_time("day 5 part 2", || day05::part2(day05_input));  // 11386445308378
 
     let day06_input = &fs::read_to_string("inputs/day06.txt")?;
-    print_and_time("day 6 part 1", || day06::part1(day06_input));  //
-    // print_and_time("day 6 part 2", || day06::part2(day06_input));  //
+    print_and_time("day 6 part 1", || day06::part1(day06_input));  // 1579
+    print_and_time("day 6 part 2", || day06::part2(day06_input));  // 13418215871354
 
     Ok(())
 }

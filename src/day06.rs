@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::{HashSet, HashMap};
 
 pub fn part1(diagram: &str) -> usize {
     let diagram: Vec<Vec<char>> = diagram.lines().map(|line| line.chars().collect()).collect();
@@ -20,8 +20,27 @@ pub fn part1(diagram: &str) -> usize {
         }
         beams_x = new_beams_x;
     }
-
     num_splits
+}
+
+pub fn part2(diagram: &str) -> usize {
+    let diagram: Vec<Vec<char>> = diagram.lines().map(|line| line.chars().collect()).collect();
+    let mut x_to_timelines: HashMap<usize, usize> = HashMap::new();
+    x_to_timelines.insert(diagram[0].iter().position(|&c| c == 'S').unwrap(), 1);
+
+    for y in 1..diagram.len() {
+        let mut new_x_to_timelines: HashMap<usize, usize> = HashMap::new();
+        for (x, count) in x_to_timelines {
+            if diagram[y][x] == '^' {
+                *new_x_to_timelines.entry(x-1).or_insert(0) += count;
+                *new_x_to_timelines.entry(x+1).or_insert(0) += count;
+            } else {
+                *new_x_to_timelines.entry(x).or_insert(0) += count;
+            }
+        }
+        x_to_timelines = new_x_to_timelines;
+    }
+    x_to_timelines.values().sum()
 }
 
 #[cfg(test)]
@@ -46,6 +65,6 @@ mod tests {
 ...............";
 
         assert_eq!(super::part1(sample_input), 21);
-        // assert_eq!(super::part2(sample_input), 3263827);
+        assert_eq!(super::part2(sample_input), 40);
     }
 }
