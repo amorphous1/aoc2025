@@ -41,7 +41,7 @@ fn main() -> Result<(), std::io::Error> {
 
     let day08_input = &fs::read_to_string("inputs/day08.txt")?;
     print_and_time("day 8 part 1", || day08::part1(day08_input, 1000));  // 50760
-    print_and_time("day 8 part 2", || day08::part2(day08_input));  //
+    print_and_time("day 8 part 2", || day08::part2(day08_input));  // 3206508875
 
     Ok(())
 }

@@ -2,21 +2,8 @@ use std::collections::HashSet;
 
 pub fn part1(boxes: &str, num_connections: usize) -> usize {
     let boxes: Vec<Box> = boxes.lines().map(|line| Box::parse(line)).collect();
-    let mut distances: Vec<(f64, &Box, &Box)> = Vec::new();
-    let mut circuits: Vec<HashSet<Box>> = Vec::new();
-    for b in &boxes {
-        let mut circut: HashSet<Box> = HashSet::new();
-        circut.insert(b.clone());
-        circuits.push(circut);
-    }
-
-    for i in 0..boxes.len() - 1 {
-        for j in i+1..boxes.len() {
-            let distance = boxes[i].distance(&boxes[j]);
-            distances.push((distance, &boxes[i], &boxes[j]));
-        }
-    }
-    distances.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
+    let mut circuits = init_circuits(&boxes);
+    let mut distances = init_distances(&boxes);
 
     for _ in 1..=num_connections {
         let (_, box1, box2) = distances.pop().unwrap();
@@ -35,21 +22,8 @@ pub fn part1(boxes: &str, num_connections: usize) -> usize {
 
 pub fn part2(boxes: &str) -> usize {
     let boxes: Vec<Box> = boxes.lines().map(|line| Box::parse(line)).collect();
-    let mut distances: Vec<(f64, &Box, &Box)> = Vec::new();
-    let mut circuits: Vec<HashSet<Box>> = Vec::new();
-    for b in &boxes {
-        let mut circut: HashSet<Box> = HashSet::new();
-        circut.insert(b.clone());
-        circuits.push(circut);
-    }
-
-    for i in 0..boxes.len() - 1 {
-        for j in i+1..boxes.len() {
-            let distance = boxes[i].distance(&boxes[j]);
-            distances.push((distance, &boxes[i], &boxes[j]));
-        }
-    }
-    distances.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
+    let mut circuits = init_circuits(&boxes);
+    let mut distances = init_distances(&boxes);
 
     loop {
         let (_, box1, box2) = distances.pop().unwrap();
@@ -67,6 +41,27 @@ pub fn part2(boxes: &str) -> usize {
     }
 }
 
+fn init_circuits(boxes: &Vec<Box>) -> Vec<HashSet<Box>> {
+    let mut circuits: Vec<HashSet<Box>> = Vec::new();
+    for b in boxes {
+        let mut circuit: HashSet<Box> = HashSet::new();
+        circuit.insert(b.clone());
+        circuits.push(circuit);
+    }
+    circuits
+}
+
+fn init_distances(boxes: &Vec<Box>) -> Vec<(f64, &Box, &Box)> {
+    let mut distances: Vec<(f64, &Box, &Box)> = Vec::new();
+    for i in 0..boxes.len() - 1 {
+        for j in i + 1..boxes.len() {
+            let distance = boxes[i].distance(&boxes[j]);
+            distances.push((distance, &boxes[i], &boxes[j]));
+        }
+    }
+    distances.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
+    distances
+}
 
 #[derive(Eq, Hash, PartialEq, Clone, Debug)]
 struct Box {
