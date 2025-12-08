@@ -33,6 +33,41 @@ pub fn part1(boxes: &str, num_connections: usize) -> usize {
     circuits[0].len() * circuits[1].len() * circuits[2].len()
 }
 
+pub fn part2(boxes: &str) -> usize {
+    let boxes: Vec<Box> = boxes.lines().map(|line| Box::parse(line)).collect();
+    let mut distances: Vec<(f64, &Box, &Box)> = Vec::new();
+    let mut circuits: Vec<HashSet<Box>> = Vec::new();
+    for b in &boxes {
+        let mut circut: HashSet<Box> = HashSet::new();
+        circut.insert(b.clone());
+        circuits.push(circut);
+    }
+
+    for i in 0..boxes.len() - 1 {
+        for j in i+1..boxes.len() {
+            let distance = boxes[i].distance(&boxes[j]);
+            distances.push((distance, &boxes[i], &boxes[j]));
+        }
+    }
+    distances.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
+
+    loop {
+        let (_, box1, box2) = distances.pop().unwrap();
+        let c1 = circuits.iter().position(|circuit| circuit.contains(box1)).unwrap();
+        if !circuits[c1].contains(box2) {
+            let mut circuit1 = circuits.remove(c1);
+            let c2 = circuits.iter().position(|circuit| circuit.contains(box2)).unwrap();
+            let circuit2 = circuits.remove(c2);
+            circuit1.extend(circuit2);
+            circuits.push(circuit1);
+            if circuits.len() == 1 {
+                return (box1.x * box2.x) as usize;
+            }
+        }
+    }
+}
+
+
 #[derive(Eq, Hash, PartialEq, Clone, Debug)]
 struct Box {
     x: i64,
@@ -78,6 +113,6 @@ mod tests {
 425,690,689";
 
         assert_eq!(super::part1(sample_input, 10), 40);
-        // assert_eq!(super::part2(sample_input), 40);
+        assert_eq!(super::part2(sample_input), 25272);
     }
 }
