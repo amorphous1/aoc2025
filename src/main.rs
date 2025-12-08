@@ -5,6 +5,7 @@ mod day01;
 mod day02;
 mod day03;
 mod day04;
+mod day05;
 mod day06;
 mod day07;
 
@@ -24,6 +25,10 @@ fn main() -> Result<(), std::io::Error> {
     let day04_input = &fs::read_to_string("inputs/day04.txt")?;
     print_and_time("day 4 part 1", || day04::part1(day04_input));
     print_and_time("day 4 part 2", || day04::part2(day04_input));
+
+    let day05_input = &fs::read_to_string("inputs/day05.txt")?;
+    print_and_time("day 5 part 1", || day05::part1(day05_input));
+    print_and_time("day 5 part 2", || day05::part2(day05_input));
 
     let day06_input = &fs::read_to_string("inputs/day06.txt")?;
     print_and_time("day 6 part 1", || day06::part1(day06_input));  // 5873191732773
